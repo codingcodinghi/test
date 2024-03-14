@@ -1,0 +1,13 @@
+DROP TABLE grallery;
+DROP SEQUENCE grallery_seq;
+CREATE TABLE gallery(
+num NUMBER CONSTRAINT grallery_num_pk PRIMARY key,
+imgname VARCHAR2(100) NOT NULL, --4번줄 clob란 텍스트에어리어에 많을양을 적을때 사용 ,var는 가변길이형,char는 고정
+comm clob,  --많은 문자열을 저장가능, 6만자 이상
+reip VARCHAR2(34),
+price number,
+qty number, --수량
+pdate DATE
+);
+CREATE SEQUENCE gallery_seq --PRIMARY key로서의 역할을 한다
+INCREMENT BY 1 START WITH 1;

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fboard">
+	<insert id="add" parameterType="fvo">	
+		insert into  FBOARD(NUM, WRITER, PWD, SUBJECT, CONTENT,HIT, REIP, FDATE, AGE)
+		   values(fboard_seq.nextval, #{writer}, #{pwd}, #{subject}, #{content},#{hit}, #{reip}, sysdate, #{age})
+	</insert>
+	
+	<select id="list" resultType="fvo">
+		select NUM, WRITER, PWD, SUBJECT, CONTENT,HIT, REIP, FDATE, AGE
+			, CASE WHEN AGE > 19  THEN '성년'
+		            ELSE '미성년'
+		       END AS status
+		  from fboard
+		  order by 1 desc
+	</select>
+	
+	<select id="detail"  parameterType="int" resultType="fvo">
+		select NUM, WRITER, PWD, SUBJECT, CONTENT,HIT, REIP, FDATE, AGE
+		  from fboard
+		 where num = #{num}		
+	</select>
+	
+	<update id="upd" parameterType="fvo">	
+		update fboard
+	     set   writer=#{writer}
+		     , subject=#{subject}
+		     , content=#{content}
+		     , reip=#{reip}
+		     , fdate=sysdate
+		     , age=#{age}
+		 where num = #{num}		
+
+	</update>
+	
+	<delete id="del" parameterType="int">
+		delete
+		  from fboard
+		 where num = #{num}		
+	</delete>
+	
+	<select id="chkPwd"  parameterType="fvo" resultType="int">
+		SELECT count(*) as cnt 
+		  from FBOARD
+		 where num = #{num}		
+		   and pwd = #{pwd}	
+	</select>
+	
+	<update id="hit" parameterType="int">	
+		update fboard
+	     set   hit = hit +1
+		 where num = #{num}		
+
+	</update>
+	
+</mapper>
